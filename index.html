@@ -1,167 +1,83 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant-TW">
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-        <title>Hi, I'm fire :)</title>
-    
-    
-	<link rel="stylesheet" media="all" href="stylesheets/bootstrap.css">
-    <link rel="stylesheet" media="all" href="stylesheets/application.css">
-    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
-    <script src="javascripts/modernizr.custom.26633.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hi, I'm fire</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="fire 的作品集：前端設計師，2001 年開始做網頁，負責過 KKTIX 前後台介面設計。">
+<link rel="icon" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<link rel="stylesheet" href="css/site.css">
 </head>
 <body>
-<div class="pages">
-    <div class="scroll-page">
-    <section class="landing">
-        <header>
-            <img src="assets/logo@2x.png" alt="logo" class="logo">
-        </header>
-        <div class="wrapper">
-            <h1 class="greetings">嗨</h1>
-			<div class="intro">
-				我是 <span class="nickname">fire</span>，一位前端設計師，<span class="mob-wrap">或<span class="typed">網頁設計師</span>
-			    <span class="smile">:)</span></span>
-			</div>
-        </div>
-		<div class="guide">
-		    <span>作品</span>
-		</div>
+
+<header class="hero" id="top">
+  <canvas id="face-canvas" aria-hidden="true"></canvas>
+  <div class="hero-inner">
+    <div class="face" aria-hidden="true"></div>
+    <div class="intro">
+      <h1 class="hello"><span class="hi">Hi,</span> 我是 <span class="name">fire</span></h1>
+      <p class="role">一位前端設計師，<br class="br-sm">或<span class="scramble" id="scramble" aria-label="網頁設計師、介面設計師、視覺設計師">網頁設計師</span></p>
+      <p class="bio">2001 年為架設遊戲網站自學而開啟設計職涯，經歷過 Soho、小公司、大公司、再回到資訊服務，負責過大型專案 KKTIX 使用者前後台介面設計、Prototype，擅長分析複雜結構、流程的系統介面，熱愛效果精緻或華麗的特效網站。</p>
+      <nav class="doors" aria-label="作品集">
+        <a class="door" href="#works"><span class="door-label">作品</span><span class="door-count" data-count="ai"></span></a>
+        <a class="door" href="#handmade"><span class="door-label">手工年代</span><span class="door-count" data-count="handmade"></span></a>
+      </nav>
+    </div>
+  </div>
+  <footer class="hero-foot contact">
+    <span class="mail"><a href="mailto:underfire9@gmail.com">underfire9 a gmail.com</a><button type="button" class="copy" data-copy="underfire9@gmail.com">複製</button></span>
+  </footer>
+</header>
+
+<div class="wipe" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+
+<main class="stage" id="stage" hidden>
+  <div class="stage-bar"><div class="stage-bar-inner">
+    <a class="home" href="#" aria-label="回到首頁"><span class="home-arrow" aria-hidden="true">←</span><img class="home-icon" src="favicon.png" alt="" width="32" height="32"></a>
+    <div class="tabs" role="tablist" aria-label="作品分類">
+      <button type="button" role="tab" id="tab-works" aria-controls="panel-works" data-route="works">作品</button>
+      <button type="button" role="tab" id="tab-handmade" aria-controls="panel-handmade" data-route="handmade">手工年代</button>
+      <span class="tab-ink" aria-hidden="true"></span>
+    </div>
+  </div></div>
+
+  <div class="panels">
+    <section class="panel" role="tabpanel" id="panel-works" aria-labelledby="tab-works" tabindex="0" hidden>
+      <div class="grid grid-ai" id="list-ai"></div>
     </section>
-	<section class="works">
-	    <div class="container">
-		    <div class="showcase">
-			    <div class="cover">
-				    <img src="assets/cover/kktix@2x.png">
-				</div>
-				<div class="pad">
-				    <h2>KKTIX</h2>
-					<p>KKTIX 售票系統，前後台介面與視覺設計、原型 prototype、圖示設計、css3 動畫、KKTIX app (v1)、印刷品</p>
-					<p><a href="https://kktix.com/" class="links" target="_blank">Website</a></p>
-				</div>
-			</div>
-			<div class="showcase">
-			    <div class="cover">
-				    <img src="assets/cover/kkbox_inc@2x.png">
-				</div>
-				<div class="pad">
-				    <h2>KKBOX Inc.</h2>
-					<p>KKBOX 集團形象官網，設計、原型 prototype</p>
-					<p><a href="portfolio/kkbox-inc/index.html" class="links" target="_blank">Prototype</a></p>
-				</div>
-			</div>
-			<div class="showcase">
-			    <div class="cover">
-				    <img src="assets/cover/fireapp@2x.png">
-				</div>
-				<div class="pad">
-				    <h2>Fire.app</h2>
-					<p>和多開發的原型製作工具，針對 command line 苦手的設計師。主角、設計、logo、原型 prototype</p>
-					<p><a href="https://fireapp.kkbox.com/" class="links" target="_blank">Website</a></p>
-				</div>
-			</div>
-			<div class="showcase">
-			    <div class="cover">
-				    <img src="assets/cover/handlino@2x.png">
-				</div>
-				<div class="pad">
-				    <h2>和多 Handlino</h2>
-					<p>和多公司網站，架設於 tumblr，設計、原型 prototype</p>
-					<p><a href="portfolio/handlino/index.html" class="links" target="_blank">Prototype</a></p>
-				</div>
-			</div>
-			<div class="showcase">
-			    <div class="cover">
-				    <img src="assets/cover/kkbox@2x.png">
-				</div>
-				<div class="pad">
-				    <h2>KKBOX</h2>
-					<p>KKBOX 官網 (2009)，全站設計</p>
-					<p>
-						<a href="assets/screenshot/kkbox-index.png" data-title="KKBOX 首頁" data-max-width="1500" data-toggle="lightbox" data-gallery="gallery-kkbox" class="links">Mockup</a>
-                        <a href="assets/screenshot/kkbox-channel.png" data-title="頻道" data-max-width="1500" data-toggle="lightbox" data-gallery="gallery-kkbox" class="d-none"></a>
-                        <a href="assets/screenshot/kkbox-artist_theme.png" data-title="藝人首頁 dark theme" data-max-width="1500" data-toggle="lightbox" data-gallery="gallery-kkbox" class="d-none"></a>
-						<a href="assets/screenshot/kkbox-billboard.png" data-title="排行榜" data-max-width="1500" data-toggle="lightbox" data-gallery="gallery-kkbox" class="d-none"></a>
-						<a href="assets/screenshot/kkbox-vote.png" data-title="投票" data-max-width="1500" data-toggle="lightbox" data-gallery="gallery-kkbox" class="d-none"></a>
-					</p>
-				</div>
-			</div>
-			<div class="showcase">
-			    <div class="cover">
-				    <img src="assets/cover/challenge-taiwan@2x.png">
-				</div>
-				<div class="pad">
-				    <h2>CHALLENGE Taiwan</h2>
-					<p>設計、原型 prototype</p>
-					<p>
-						<a href="assets/screenshot/ct-index.png" data-title="CHALLENGE Taiwan 首頁" data-max-width="1500" data-toggle="lightbox" data-gallery="gallery-ct" class="links">Mockup</a>
-						<a href="assets/screenshot/ct-article.png" data-title="文章" data-max-width="1500" data-toggle="lightbox" data-gallery="gallery-ct" class="d-none"></a>
-						<a href="assets/screenshot/ct-mobile.png" data-title="行動裝置" data-max-width="1500" data-toggle="lightbox" data-gallery="gallery-ct" class="d-none"></a>
-					</p>
-				</div>
-			</div>
-			<div class="showcase">
-			    <div class="cover">
-				    <img src="assets/cover/bingo@2x.png">
-				</div>
-				<div class="pad">
-				    <h2>和多繽紛樂</h2>
-					<p>已更名 FunSlots 繽紛樂，設計、原型 prototype</p>
-					<p><a href="http://slot.miario.com/" class="links" target="_blank">Website</a></p>
-				</div>
-			</div>
-			<div class="showcase">
-			    <div class="cover">
-				    <img src="assets/cover/4gamers.png">
-				</div>
-				<div class="pad">
-				    <h2>4Gamers</h2>
-					<p>2006 與夥伴建立，4Gamers 前身，設計、原型 prototype、logo design</p>
-					<p>
-						<a href="assets/screenshot/4g-index.png" data-title="4Gamers 首頁" data-max-width="1500" data-toggle="lightbox" data-gallery="gallery-4g" class="links">Mockup</a>
-					</p>
-				</div>
-			</div>
-		</div>
-	</section>
-	<section class="contact">
-		<div class="container">
-			<p class="mb-0">Resume: <a href="portfolio/resume.pdf">PDF</a></p>
-		    <p>Contact: <a href="mailto:underfire9@gmail.com">underfire9 a gmail.com</a></p>
-			<p class="avatar"><img src="favicon.png"></p>
-		</div>
-	</section>
-</div>
+    <section class="panel" role="tabpanel" id="panel-handmade" aria-labelledby="tab-handmade" tabindex="0" hidden>
+      <header class="panel-head">
+        <h2>手工年代</h2>
+        <p>從 2001 年開始一行一行刻出來的網站、原型與視覺。</p>
+      </header>
+      <div class="grid grid-hm" id="list-handmade"></div>
+    </section>
+  </div>
 
+  <footer class="stage-foot contact">
+    <span class="mail"><a href="mailto:underfire9@gmail.com">underfire9 a gmail.com</a><button type="button" class="copy" data-copy="underfire9@gmail.com">複製</button></span>
+  </footer>
+</main>
 
+<dialog class="lightbox" id="lightbox" aria-labelledby="lb-title">
+  <div class="lb-bar">
+    <p class="lb-title" id="lb-title"></p>
+    <p class="lb-count" id="lb-count"></p>
+    <button type="button" class="lb-btn" id="lb-prev" aria-label="上一張">←</button>
+    <button type="button" class="lb-btn" id="lb-next" aria-label="下一張">→</button>
+    <button type="button" class="lb-btn" id="lb-close" aria-label="關閉">✕</button>
+  </div>
+  <div class="lb-body" id="lb-body"><img id="lb-img" alt=""></div>
+</dialog>
 
-</div>
-
-<script src="javascripts/jquery-3.2.1.min.js"></script>
-<script src="javascripts/bootstrap.min.js"></script>
-<script src="javascripts/typed.min.js"></script>
-<script src="javascripts/ekko-lightbox.min.js"></script>
-
-    <script>
-$(function() {
-  $(".typed").typed({
-    strings: ["網頁設計師", "介面設計師", "視覺設計師"],
-    typeSpeed: 200,
-    backSpeed: 100,
-    backDelay: 2400,
-    showCursor: false,
-    loop: true
-  });
-});
-$(document).on("click", '[data-toggle="lightbox"]', function(event) {
-  event.preventDefault();
-  $(this).ekkoLightbox();
-});
-</script>
-
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="js/works.js"></script>
+<script src="js/avatar.js"></script>
+<script src="js/site.js"></script>
 </body>
 </html>
