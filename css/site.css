@@ -153,7 +153,26 @@ a{color:inherit}
   border-radius:50%;background:#2b4068;box-shadow:0 0 0 clamp(28px,4vw,56px) #26395d}
 .solo .live-brand{justify-items:center;text-align:center;padding:0}
 .solo .cover-logo{width:clamp(110px,16vw,230px)}
-@media (prefers-reduced-motion:reduce){.cover .cover-logo{animation:none}}
+/* Visual Dock：深灰底、logo 的同心圓環各自旋轉，外圈是音樂視覺化的放射條 */
+.cover-live.solo[data-motion=rings]{background:#1f2124}
+[data-motion=rings] .live-brand::before{display:none}
+.cover [data-motion=rings] .cover-logo{width:clamp(150px,19vw,270px);animation:none}
+[data-motion=rings] svg g{transform-origin:128px 128px;animation:spin 40s linear infinite}
+[data-motion=rings] .vd-r2{animation-duration:28s;animation-direction:reverse}
+[data-motion=rings] .vd-r3{animation-duration:55s}
+[data-motion=rings] .vd-r4{animation-duration:18s;animation-direction:reverse}
+@keyframes spin{to{rotate:360deg}}
+@media (prefers-reduced-motion:reduce){.cover .cover-logo,[data-motion=rings] svg g{animation:none}}
+
+/* 條列小標、技術、截圖格 */
+.feats b{display:block;color:var(--ink);font-weight:700}
+.tech{font:500 13px/1.6 var(--mono) !important;letter-spacing:.02em}
+.tech::before{content:"技術　";color:var(--ink)}
+.shots{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(12px,1.6vw,20px);margin-top:8px}
+.shot{display:grid;gap:8px;padding:0;border:0;background:none;text-align:left;cursor:zoom-in;font:inherit;color:var(--muted)}
+.shot img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:6px;box-shadow:0 0 0 1px var(--line);transition:transform .3s,box-shadow .3s}
+.shot:hover img{transform:translateY(-2px);box-shadow:0 0 0 1px var(--ink)}
+.shot span{font-size:13px;line-height:1.4}
 .cover-gen{position:absolute;inset:0;display:grid;place-items:end start;padding:clamp(18px,3vw,32px);background:var(--tone-0);color:var(--tone-4)}
 .cover-gen::before{content:"";position:absolute;inset:0;opacity:.9;
   background:radial-gradient(circle,var(--c1) 34%,transparent 38%) 0 0/var(--d) calc(var(--d)*1.732),

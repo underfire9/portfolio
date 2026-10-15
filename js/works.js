@@ -30,8 +30,25 @@ window.WORKS = {
     {
       title: 'Visual Dock',
       tag: '軟體開發',
-      desc: '',
+      desc: 'Visual Dock 是一款 Windows 桌面應用程式，用 Electron 包裝網頁介面製作而成。它把動態視覺畫面、應用程式啟動列和常用系統控制整合在同一個全螢幕畫面裡。',
+      features: [
+        '視覺舞台：可以在 CSS／JS、Three.js、影片和音樂視覺化這幾個分類之間切換畫面。內容包含附時鐘與天氣資訊的雨窗、Drift 和 Misty Forest 兩個 3D 場景、串流播放的 Aerial 空拍影片，以及 Butterchurn 和 projectM 音樂視覺化。',
+        '音樂：可以連接 Spotify 播放並控制歌曲，也可以擷取系統音訊或載入本機音檔來驅動視覺化效果。',
+        '工具列：可以啟動常用應用程式，也有資料夾捷徑、VPN 開關和輸入法狀態顯示。工具列上還會顯示 Claude 或 ChatGPT 的 5 小時用量與本週用量。',
+        '主題：提供 Light、Dark、Deep Dark 三種主題，可以隨時切換。'
+      ],
+      tech: 'HTML、SCSS、JavaScript、Three.js、Electron',
       cover: '',
+      motion: 'rings', // 動態封面，見 js/covers.js
+      logo: 'img/ai/visualdock-logo.svg',
+      tagline: '',
+      shot: '',
+      gallery: [ // 有 thumb 會排成縮圖格
+        { src: 'img/shots/vd-1.webp', thumb: 'img/shots/vd-1-sm.webp', title: 'Light 主題' },
+        { src: 'img/shots/vd-2.webp', thumb: 'img/shots/vd-2-sm.webp', title: 'Aerial 空拍影片' },
+        { src: 'img/shots/vd-3.webp', thumb: 'img/shots/vd-3-sm.webp', title: '雨窗時鐘與天氣 · Deep Dark' },
+        { src: 'img/shots/vd-4.webp', thumb: 'img/shots/vd-4-sm.webp', title: 'projectM 音樂視覺化' }
+      ],
       links: []
     }
   ],

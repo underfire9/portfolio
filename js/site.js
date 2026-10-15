@@ -76,7 +76,11 @@
       : `<div class="cover-gen" style="--c1:${g[0]};--c2:${g[1]};--ang:${g[2]};--d:${14 + (i % 3) * 4}px"><span>${esc(w.title)}</span></div>`;
     const links = (w.links || []).map(l =>
       `<a class="act" href="${esc(legacy(l.href))}" target="_blank" rel="noopener">${esc(l.label)} <span aria-hidden="true">↗</span></a>`).join('');
-    const gal = w.gallery && w.gallery.length
+    // 截圖有 thumb 時直接排成縮圖格，點開燈箱；沒有 thumb 就只放一顆 Mockup 按鈕
+    const thumbs = w.gallery && w.gallery.some(s => s.thumb)
+      ? `<div class="shots">${w.gallery.map((s, n) => `<button type="button" class="shot" data-gallery="${kind}:${i}:${n}">
+          <img src="${esc(s.thumb || s.src)}" alt="" loading="lazy" width="960" height="540"><span>${esc(s.title)}</span></button>`).join('')}</div>` : '';
+    const gal = w.gallery && w.gallery.length && !thumbs
       ? `<button type="button" class="act" data-gallery="${kind}:${i}">Mockup <span aria-hidden="true">· ${w.gallery.length} 張</span></button>` : '';
     return `<article class="card">
       <div class="cover">${cover}</div>
@@ -86,8 +90,11 @@
       </div>
       <div class="card-body">
         ${w.desc ? `<p>${esc(w.desc)}</p>` : ''}
-        ${w.features && w.features.length ? `<ul class="feats">${w.features.map(f => `<li>${esc(f)}</li>`).join('')}</ul>` : ''}
+        ${w.features && w.features.length ? `<ul class="feats">${w.features.map(f => { const m = f.match(/^([^：]{1,8})：(.*)$/s);
+          return `<li>${m ? `<b>${esc(m[1])}</b>${esc(m[2])}` : esc(f)}</li>`; }).join('')}</ul>` : ''}
+        ${w.tech ? `<p class="tech">${esc(w.tech)}</p>` : ''}
         ${links || gal ? `<div class="actions">${links}${gal}</div>` : ''}
+        ${thumbs}
       </div>
     </article>`;
   }
@@ -202,7 +209,7 @@
   }
   document.addEventListener('click', e => {
     const b = e.target.closest('[data-gallery]'); if (!b) return;
-    const [k, i] = b.dataset.gallery.split(':'); gal = W[k][+i].gallery; showShot(0); lb.showModal();
+    const [k, i, n] = b.dataset.gallery.split(':'); gal = W[k][+i].gallery; showShot(+n || 0); lb.showModal();
   });
   $('#lb-prev').addEventListener('click', () => gi > 0 && showShot(gi - 1));
   $('#lb-next').addEventListener('click', () => gi < gal.length - 1 && showShot(gi + 1));
