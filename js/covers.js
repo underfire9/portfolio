@@ -43,14 +43,23 @@
     return { resize, frame };
   }
 
-  // Visual Dock：圍著 logo 的放射條，像音樂視覺化一樣起伏（平面實色）
+  // Visual Dock：玻璃上的雨滴（呼應雨窗）慢慢滑落，logo 每隔一段時間向外擴散一圈細線
   function rings(cv, el) {
     const ctx = cv.getContext('2d');
-    let w = 0, h = 0, dpr = 1, cx = 0, cy = 0, r0 = 0, len = 0;
-    const N = 120;
+    let w = 0, h = 0, dpr = 1, cx = 0, cy = 0, r0 = 0, drops = [];
+    const COLORS = ['#2c3035', '#33393f', '#3b424a', '#465260'];
+    function drop(d, anywhere) {
+      d.x = Math.random() * w; d.y = anywhere ? Math.random() * h : -10 * dpr;
+      d.r = (.6 + Math.random() * Math.random() * 2.6) * dpr;
+      d.v = 0; d.hold = Math.random() * 400;        // 先停在玻璃上，再隨機往下滑
+      d.c = COLORS[Math.random() * COLORS.length | 0];
+      return d;
+    }
     function resize() {
       dpr = Math.min(devicePixelRatio || 1, 2);
       w = cv.width = cv.clientWidth * dpr; h = cv.height = cv.clientHeight * dpr;
+      const n = Math.max(60, Math.round(cv.clientWidth * cv.clientHeight / 2600));
+      drops = Array.from({ length: n }, () => drop({}, true));
       measure();
     }
     // logo 是非同步換成 SVG 的，每格重新量一次位置
@@ -58,22 +67,25 @@
       const logo = el.querySelector('.cover-logo'), a = el.getBoundingClientRect();
       const b = logo ? logo.getBoundingClientRect() : { left: a.left + a.width / 2, top: a.top + a.height / 2, width: 0, height: 0 };
       cx = (b.left - a.left + b.width / 2) * dpr; cy = (b.top - a.top + b.height / 2) * dpr;
-      r0 = b.width / 2 * 1.04 * dpr; len = Math.max(14, b.width * .2) * dpr;
+      r0 = b.width / 2 * .94 * dpr;
     }
     function frame(t) {
       measure();
       ctx.clearRect(0, 0, w, h);
-      const s = t / 1000;
-      for (let i = 0; i < N; i++) {
-        const a = i / N * Math.PI * 2 - Math.PI / 2;
-        const k = Math.abs(Math.sin(a * 3 + s * 1.3)) * .5 + Math.abs(Math.sin(a * 7 - s * 2.1)) * .3 + Math.abs(Math.sin(a * 13 + s * 3.7)) * .2;
-        const l = len * (.12 + k * k);
-        ctx.strokeStyle = k > .72 ? '#557E92' : '#3a4047';
-        ctx.lineWidth = 2 * dpr;
-        ctx.beginPath();
-        ctx.moveTo(cx + Math.cos(a) * r0, cy + Math.sin(a) * r0);
-        ctx.lineTo(cx + Math.cos(a) * (r0 + l), cy + Math.sin(a) * (r0 + l));
-        ctx.stroke();
+      for (const d of drops) {
+        if (d.hold > 0) d.hold--;
+        else { d.v = Math.min(d.v + .02 * d.r, 1.6 * d.r); d.y += d.v; if (Math.random() < .01) { d.hold = 60 + Math.random() * 300; d.v = 0; } }
+        if (d.y > h + 10 * dpr) drop(d);
+        ctx.fillStyle = d.c;
+        ctx.beginPath(); ctx.ellipse(d.x, d.y, d.r, d.r * (1 + d.v * .15 / dpr), 0, 0, 6.29); ctx.fill();
+      }
+      // 擴散圈：每 3 秒一圈，6 秒內往外擴到 2.4 倍並淡出
+      const P = 3000, L = 6000;
+      ctx.lineWidth = 1 * dpr;
+      for (let k = 0; k < L / P; k++) {
+        const p = ((t + k * P) % L) / L;
+        ctx.strokeStyle = `rgba(85,126,146,${(1 - p) * .55})`;
+        ctx.beginPath(); ctx.arc(cx, cy, r0 * (1 + p * 1.4), 0, 6.29); ctx.stroke();
       }
     }
     return { resize, frame };

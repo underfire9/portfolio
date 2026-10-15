@@ -92,6 +92,7 @@
         ${w.desc ? `<p>${esc(w.desc)}</p>` : ''}
         ${w.features && w.features.length ? `<ul class="feats">${w.features.map(f => { const m = f.match(/^([^：]{1,8})：(.*)$/s);
           return `<li>${m ? `<b>${esc(m[1])}</b>${esc(m[2])}` : esc(f)}</li>`; }).join('')}</ul>` : ''}
+        ${w.note ? `<p class="note">${esc(w.note)}</p>` : ''}
         ${w.tech ? `<p class="tech">${esc(w.tech)}</p>` : ''}
         ${links || gal ? `<div class="actions">${links}${gal}</div>` : ''}
         ${thumbs}
@@ -203,6 +204,7 @@
   let gal = [], gi = 0;
   function showShot(i) {
     gi = i; const s = gal[i];
+    setZoom(false); lbBody.classList.remove('can-zoom'); zoomBtn.hidden = true;
     lbImg.src = s.src; lbImg.alt = s.title; $('#lb-title').textContent = s.title;
     $('#lb-count').textContent = `${i + 1} / ${gal.length}`;
     $('#lb-prev').disabled = i === 0; $('#lb-next').disabled = i === gal.length - 1; lbBody.scrollTop = 0;
@@ -215,6 +217,42 @@
   $('#lb-next').addEventListener('click', () => gi < gal.length - 1 && showShot(gi + 1));
   $('#lb-close').addEventListener('click', () => lb.close());
   lb.addEventListener('click', e => { if (e.target === lb) lb.close(); });
+  // 放大到原尺寸：點圖或按 1:1，以點擊位置為中心；放大後可拖曳平移
+  const zoomBtn = $('#lb-zoom');
+  function setZoom(on, cx, cy) {
+    const r = lbImg.getBoundingClientRect(), b = lbBody.getBoundingClientRect();
+    const fx = cx == null ? .5 : (cx - r.left) / r.width, fy = cy == null ? 0 : (cy - r.top) / r.height;
+    lbBody.classList.toggle('zoom', on); zoomBtn.setAttribute('aria-pressed', on);
+    if (on) {
+      lbBody.scrollLeft = fx * lbImg.offsetWidth - (cx == null ? b.width / 2 : cx - b.left);
+      lbBody.scrollTop = fy * lbImg.offsetHeight - (cy == null ? 0 : cy - b.top);
+    } else lbBody.scrollLeft = 0;
+  }
+  lbImg.addEventListener('load', () => {
+    const big = lbImg.naturalWidth > lbBody.clientWidth + 8;
+    lbBody.classList.toggle('can-zoom', big); zoomBtn.hidden = !big;
+  });
+  zoomBtn.addEventListener('click', () => setZoom(!lbBody.classList.contains('zoom')));
+  let drag = null, moved = false;
+  lbImg.addEventListener('pointerdown', e => {
+    if (!lbBody.classList.contains('zoom') || e.pointerType !== 'mouse') return;
+    drag = { x: e.clientX, y: e.clientY, l: lbBody.scrollLeft, t: lbBody.scrollTop }; moved = false;
+    lbBody.classList.add('drag'); lbImg.setPointerCapture(e.pointerId); e.preventDefault();
+  });
+  lbImg.addEventListener('pointermove', e => {
+    if (!drag) return;
+    const dx = e.clientX - drag.x, dy = e.clientY - drag.y; if (Math.abs(dx) + Math.abs(dy) > 4) moved = true;
+    lbBody.scrollLeft = drag.l - dx; lbBody.scrollTop = drag.t - dy;
+  });
+  const endDrag = () => { drag = null; lbBody.classList.remove('drag'); };
+  lbImg.addEventListener('pointerup', endDrag); lbImg.addEventListener('pointercancel', endDrag);
+  lbImg.addEventListener('click', e => {
+    if (moved) { moved = false; return; }
+    const z = lbBody.classList.contains('zoom');
+    if (z || lbBody.classList.contains('can-zoom')) setZoom(!z, e.clientX, e.clientY);
+  });
+  lb.addEventListener('close', () => setZoom(false));
+
   lb.addEventListener('keydown', e => {
     if (e.key === 'ArrowRight' && gi < gal.length - 1) showShot(gi + 1);
     if (e.key === 'ArrowLeft' && gi > 0) showShot(gi - 1);
