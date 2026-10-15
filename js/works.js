@@ -1,6 +1,6 @@
 /* 作品資料：新增或刪除作品只要改這個檔案。
-   links: { label, href }；gallery: 點擊後開燈箱的截圖 [{ src, title }]
-   cover 留空會自動用頭像色階產生封面。 */
+   links: { label, href }；features: 條列重點；gallery: 點擊後開燈箱的截圖 [{ src, title }]
+   cover 留空會自動用頭像色階產生封面；motion + logo 會改用動態封面（js/covers.js）。 */
 
 // 舊作品的 prototype、履歷放在原 portfolio repo；網站和它們放在同一個 repo 時保持空字串即可
 window.LEGACY_ROOT = window.LEGACY_ROOT || '';
@@ -11,8 +11,21 @@ window.WORKS = {
     {
       title: 'Fireworker',
       tag: '軟體開發',
-      desc: '',
+      desc: '這是給設計師用的 Windows 桌面 prototype 工具，延續自 Fire.app。用 ERB 和 SCSS 寫頁面，存檔後瀏覽器預覽會自動更新，完成後輸出成靜態 HTML。',
+      bullet: 'img/ai/fireworker-bullet.svg', // 條列符號，選填
+      features: [ // 條列重點，選填
+        '建立專案時，可以從空白、形象頁或後台列表範本開始',
+        '內建中、英、日假文，以及假圖與常用 helper，不必準備真實內容',
+        '語法或 SCSS 有錯時，直接顯示在預覽頁上',
+        '預覽網址固定',
+        '一鍵輸出靜態網站並壓縮成 zip',
+        '提供命令列與 AGENTS.md，AI agent 也能直接建立、檢查、輸出專案'
+      ],
       cover: '',
+      motion: 'embers', // 動態封面，見 js/covers.js
+      logo: 'img/ai/fireworker-logo.svg',
+      tagline: '', // 封面上 logo 旁的一句話
+      shot: '', // 封面右側的產品截圖，留空時 logo 置中
       links: [] // 例如 { label: 'Website', href: 'https://…' }
     },
     {

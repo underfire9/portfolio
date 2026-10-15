@@ -107,8 +107,40 @@ a{color:inherit}
   border:1px solid var(--ink);border-radius:999px;padding:8px 13px;cursor:pointer;transition:background .2s,color .2s}
 .act:hover{background:var(--ink);color:var(--paper)}
 
-/* 「作品」區：大卡片，封面占滿，沒有封面時用色階圓點產生 */
-.grid-ai .cover{aspect-ratio:4/3;border-radius:10px}
+/* 「作品」區：一個作品占一整行，封面滿版；標題在左、說明在右。沒有封面時用色階圓點產生 */
+.grid-ai{grid-template-columns:minmax(0,1fr);row-gap:clamp(48px,7vw,96px)}
+.grid-ai .card{grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);column-gap:clamp(20px,4vw,56px)}
+.grid-ai .cover{grid-column:1/-1;aspect-ratio:21/9;border-radius:12px}
+.card-head,.card-body{display:contents}
+.grid-ai .card-head,.grid-ai .card-body{display:grid;gap:14px;align-content:start}
+.grid-ai .card-head{grid-column:1}
+.grid-ai .card-body{grid-column:2;gap:18px}
+.feats{margin:0;padding:0;list-style:none;display:grid;gap:8px;font-size:15px;line-height:1.7;color:var(--muted)}
+.feats li{position:relative;padding-left:24px}
+/* 條列符號：預設是一段短橫線；作品可用 bullet 換成自己的小圖（Fireworker 是 logo 的火焰剪影） */
+.feats li::before{content:"";position:absolute;left:0;top:.82em;width:12px;height:2px;border-radius:1px;background:var(--ember)}
+.feats[style*="--bullet"] li::before{top:.42em;width:12px;height:14px;border-radius:0;background:var(--bullet) center/contain no-repeat}
+.cover-live{position:absolute;inset:0;display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);align-items:center;gap:clamp(16px,4vw,56px);
+  padding:clamp(20px,4vw,56px) 0 0 clamp(20px,5vw,72px);color:var(--tone-4);
+  background:var(--tone-0)}
+.cover-live canvas{position:absolute;inset:0;width:100%;height:100%}
+.live-brand{position:relative;display:grid;justify-items:start;gap:clamp(8px,1.2vw,14px);align-self:center;padding-bottom:clamp(20px,4vw,56px)}
+.live-brand b{font:800 clamp(26px,3.6vw,52px)/1 var(--display);letter-spacing:-.02em}
+.live-brand span{font-size:clamp(14px,1.2vw,17px);line-height:1.6;opacity:.8;max-width:22em}
+.cover .cover-logo{position:relative;width:clamp(72px,10vw,150px);height:auto;object-fit:contain;animation:bob 3.2s ease-in-out infinite}
+.card:hover .cover .cover-logo{transform:none}
+@keyframes bob{50%{translate:0 -4%}}
+.live-shot{position:relative;align-self:end;height:88%;border-radius:10px 0 0 0;overflow:hidden;background:#0f1729;
+  box-shadow:0 0 0 1px rgb(237 222 199 / .12)}
+.live-shot img{width:100%;height:100%;object-fit:cover;object-position:left top}
+/* 沒有截圖：logo 置中，火光從底部往上 */
+.cover-live.solo{grid-template-columns:minmax(0,1fr);padding:0;background:var(--tone-0)}
+/* 平面圓盤襯在 logo 後方 */
+.solo .live-brand::before{content:"";position:absolute;left:50%;top:50%;width:clamp(200px,28vw,400px);aspect-ratio:1;translate:-50% -46%;
+  border-radius:50%;background:#2b4068;box-shadow:0 0 0 clamp(28px,4vw,56px) #26395d}
+.solo .live-brand{justify-items:center;text-align:center;padding:0}
+.solo .cover-logo{width:clamp(110px,16vw,230px)}
+@media (prefers-reduced-motion:reduce){.cover .cover-logo{animation:none}}
 .cover-gen{position:absolute;inset:0;display:grid;place-items:end start;padding:clamp(18px,3vw,32px);background:var(--tone-0);color:var(--tone-4)}
 .cover-gen::before{content:"";position:absolute;inset:0;opacity:.9;
   background:radial-gradient(circle,var(--c1) 34%,transparent 38%) 0 0/var(--d) calc(var(--d)*1.732),
@@ -140,6 +172,15 @@ a{color:inherit}
   .intro{grid-column:1;grid-row:2;max-width:none;gap:14px}
   .hero-foot{margin-top:28px;padding-inline:0}
   .grid{grid-template-columns:minmax(0,1fr)}
+  .grid-ai .card{grid-template-columns:minmax(0,1fr)}
+  .grid-ai .card-body{grid-column:1}
+  .grid-ai .cover{aspect-ratio:4/3}
+  .cover-live{grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);padding:28px 0 0 24px;gap:20px}
+  .live-brand{padding-bottom:0}
+  .live-shot{height:100%}
+  .cover-live.solo{grid-template-rows:minmax(0,1fr);padding:0;background:var(--tone-0)}
+  .solo .cover-logo{width:min(42vw,200px)}
+  .solo .live-brand::before{width:62vw;box-shadow:0 0 0 9vw #26395d}
   .tabs button{padding:9px 13px;font-size:14px}
 }
 @media (max-width:420px){ .br-sm{display:inline} .scramble{padding-left:0} .door{padding:13px 18px} }

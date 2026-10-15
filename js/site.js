@@ -67,7 +67,11 @@
   ];
   function card(w, i, kind) {
     const g = GEN[i % GEN.length];
-    const cover = w.cover
+    const cover = w.motion
+      ? `<div class="cover-live${w.shot ? '' : ' solo'}" data-motion="${esc(w.motion)}"><canvas aria-hidden="true"></canvas>
+          <div class="live-brand">${w.logo ? `<img class="cover-logo" src="${esc(w.logo)}" alt="">` : ''}${w.shot ? `<b>${esc(w.title)}</b>` : ''}${w.tagline ? `<span>${esc(w.tagline)}</span>` : ''}</div>
+          ${w.shot ? `<div class="live-shot"><img src="${esc(w.shot)}" alt="${esc(w.title)} 截圖" loading="lazy"></div>` : ''}</div>`
+      : w.cover
       ? `<img src="${esc(w.cover)}" alt="${esc(w.title)} 封面" loading="lazy" width="1200" height="675">`
       : `<div class="cover-gen" style="--c1:${g[0]};--c2:${g[1]};--ang:${g[2]};--d:${14 + (i % 3) * 4}px"><span>${esc(w.title)}</span></div>`;
     const links = (w.links || []).map(l =>
@@ -76,10 +80,15 @@
       ? `<button type="button" class="act" data-gallery="${kind}:${i}">Mockup <span aria-hidden="true">· ${w.gallery.length} 張</span></button>` : '';
     return `<article class="card">
       <div class="cover">${cover}</div>
-      ${w.tag ? `<span class="tag">${esc(w.tag)}</span>` : ''}
-      <h3${isZh(w.title) ? ' lang="zh"' : ''}>${esc(w.title)}</h3>
-      ${w.desc ? `<p>${esc(w.desc)}</p>` : ''}
-      ${links || gal ? `<div class="actions">${links}${gal}</div>` : ''}
+      <div class="card-head">
+        ${w.tag ? `<span class="tag">${esc(w.tag)}</span>` : ''}
+        <h3${isZh(w.title) ? ' lang="zh"' : ''}>${esc(w.title)}</h3>
+      </div>
+      <div class="card-body">
+        ${w.desc ? `<p>${esc(w.desc)}</p>` : ''}
+        ${w.features && w.features.length ? `<ul class="feats"${w.bullet ? ` style="--bullet:url('${esc(new URL(w.bullet, location.href).href)}')"` : ''}>${w.features.map(f => `<li>${esc(f)}</li>`).join('')}</ul>` : ''}
+        ${links || gal ? `<div class="actions">${links}${gal}</div>` : ''}
+      </div>
     </article>`;
   }
   $('#list-ai').innerHTML = W.ai.map((w, i) => card(w, i, 'ai')).join('');
