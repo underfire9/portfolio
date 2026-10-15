@@ -86,7 +86,7 @@
       </div>
       <div class="card-body">
         ${w.desc ? `<p>${esc(w.desc)}</p>` : ''}
-        ${w.features && w.features.length ? `<ul class="feats"${w.bullet ? ` style="--bullet:url('${esc(new URL(w.bullet, location.href).href)}')"` : ''}>${w.features.map(f => `<li>${esc(f)}</li>`).join('')}</ul>` : ''}
+        ${w.features && w.features.length ? `<ul class="feats">${w.features.map(f => `<li>${esc(f)}</li>`).join('')}</ul>` : ''}
         ${links || gal ? `<div class="actions">${links}${gal}</div>` : ''}
       </div>
     </article>`;

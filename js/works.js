@@ -12,7 +12,6 @@ window.WORKS = {
       title: 'Fireworker',
       tag: '軟體開發',
       desc: '這是給設計師用的 Windows 桌面 prototype 工具，延續自 Fire.app。用 ERB 和 SCSS 寫頁面，存檔後瀏覽器預覽會自動更新，完成後輸出成靜態 HTML。',
-      bullet: 'img/ai/fireworker-bullet.svg', // 條列符號，選填
       features: [ // 條列重點，選填
         '建立專案時，可以從空白、形象頁或後台列表範本開始',
         '內建中、英、日假文，以及假圖與常用 helper，不必準備真實內容',
