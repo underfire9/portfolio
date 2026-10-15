@@ -215,7 +215,7 @@
 
   /* ---------- 複製 email ---------- */
   $$('.copy').forEach(b => b.addEventListener('click', () => {
-    const done = () => { b.textContent = '已複製'; setTimeout(() => (b.textContent = '複製'), 1600); };
+    const done = () => { b.classList.add('done'); b.setAttribute('aria-label', '已複製'); setTimeout(() => { b.classList.remove('done'); b.setAttribute('aria-label', '複製 email'); }, 1600); };
     const fallback = () => { const r = document.createRange(); r.selectNodeContents(b.previousElementSibling); const s = getSelection(); s.removeAllRanges(); s.addRange(r); };
     try { navigator.clipboard.writeText(b.dataset.copy).then(done, fallback); } catch (e) { fallback(); }
   }));

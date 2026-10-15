@@ -140,6 +140,28 @@ void main(){
 
     addEventListener('pointermove', e => { if (api.paused) return; lastMove = performance.now(); look(e.clientX, e.clientY); }, { passive: true });
     document.documentElement.addEventListener('pointerleave', () => { qx(0); qy(0); });
+
+    // 手機傾斜：左右傾 (gamma) 控制橫向、前後傾 (beta) 相對於拿手機的自然角度控制縱向，
+    // 頭像跟著轉、背景隨傾斜幅度轉深。iOS 要在使用者第一次點擊時要權限。
+    if (!reduce && 'DeviceOrientationEvent' in window && matchMedia('(pointer: coarse)').matches) {
+      let base = null;
+      const tilt = e => {
+        if (api.paused || e.beta == null || e.gamma == null) return;
+        const ang = (screen.orientation && screen.orientation.angle) || window.orientation || 0;
+        let b = e.beta, g = e.gamma;
+        if (ang === 90) [b, g] = [-g, b]; else if (ang === -90 || ang === 270) [b, g] = [g, -b];
+        if (base === null) base = b;
+        base += (b - base) * 0.004; // 慢慢跟上姿勢改變，躺著或坐著拿都以當下角度為中心
+        lastMove = performance.now();
+        qx(clamp(g / 28)); qy(clamp((b - base) / 22));
+      };
+      const listen = () => addEventListener('deviceorientation', tilt, { passive: true });
+      const D = window.DeviceOrientationEvent;
+      if (typeof D.requestPermission === 'function') {
+        const ask = () => { D.requestPermission().then(s => { if (s === 'granted') listen(); }).catch(() => {}); };
+        addEventListener('touchend', ask, { once: true, passive: true });
+      } else listen();
+    }
     addEventListener('resize', size);
     new ResizeObserver(size).observe(faceBox);
     size(); weights();
