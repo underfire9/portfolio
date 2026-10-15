@@ -116,20 +116,21 @@ a{color:inherit}
 .grid-ai .card-head{grid-column:1}
 .grid-ai .card-body{grid-column:2;gap:18px}
 .feats{margin:0;padding:0;list-style:none;display:grid;gap:8px;font-size:15px;line-height:1.7;color:var(--muted)}
-.feats li{position:relative;padding-left:26px}
+.feats li{position:relative;padding-left:22px}
 /* 條列符號：同心圓，外圈框線、內圈實心 */
-.feats li::before,.feats li::after{content:"";position:absolute;border-radius:50%;top:calc(.85em - 7px);left:0;width:14px;height:14px;box-sizing:border-box}
-.feats li::before{border:1.5px solid var(--ember)}
-.feats li::after{left:4px;top:calc(.85em - 3px);width:6px;height:6px;background:var(--ember)}
+.feats li::before,.feats li::after{content:"";position:absolute;border-radius:50%;top:calc(.85em - 5px);left:0;width:10px;height:10px;box-sizing:border-box}
+.feats li::before{border:1px solid var(--tone-1)}
+.feats li::after{left:3px;top:calc(.85em - 2px);width:4px;height:4px;background:var(--tone-0)}
 /* 區塊：封面和文字緊緊一組，作品之間用大間距＋分隔線切開 */
 .grid-ai{row-gap:0}
-.grid-ai .card{row-gap:0;padding-block:clamp(36px,5vw,64px) clamp(48px,7vw,88px);border-bottom:1px solid var(--line)}
+.grid-ai .card{row-gap:0;padding-top:clamp(36px,5vw,64px);border-bottom:1px solid var(--line)}
 .grid-ai .card:first-child{padding-top:0}
 .grid-ai .card:last-child{border-bottom:0}
-.grid-ai .card-head,.grid-ai .card-body{padding-top:clamp(28px,3.6vw,48px)}
+.grid-ai .card-head,.grid-ai .card-body{padding-block:clamp(28px,3.6vw,48px) clamp(48px,7vw,88px)}
+/* 說明欄左側直線：從封面下緣一路接到下方的分隔線 */
+.grid-ai .card-body{padding-left:clamp(20px,3vw,40px);border-left:1px solid var(--line)}
 .grid-ai .card h3{font-size:clamp(30px,3.6vw,48px);line-height:1.05;letter-spacing:-.02em}
 .grid-ai .card-body p{font-size:16px;color:var(--ink)}
-.grid-ai .feats li::before{border-color:var(--ember)}
 .cover-live{position:absolute;inset:0;display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);align-items:center;gap:clamp(16px,4vw,56px);
   padding:clamp(20px,4vw,56px) 0 0 clamp(20px,5vw,72px);color:var(--tone-4);
   background:var(--tone-0)}
@@ -183,7 +184,8 @@ a{color:inherit}
   .hero-foot{margin-top:28px;padding-inline:0}
   .grid{grid-template-columns:minmax(0,1fr)}
   .grid-ai .card{grid-template-columns:minmax(0,1fr)}
-  .grid-ai .card-body{grid-column:1;padding-top:16px}
+  .grid-ai .card-head{padding-bottom:0}
+  .grid-ai .card-body{grid-column:1;padding-top:16px;padding-left:0;border-left:0}
   .grid-ai .cover{aspect-ratio:4/3}
   .cover-live{grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);padding:28px 0 0 24px;gap:20px}
   .live-brand{padding-bottom:0}
