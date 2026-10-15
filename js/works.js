@@ -63,7 +63,8 @@ window.WORKS = {
     },
     {
       title: 'KKBOX Inc.',
-      desc: 'KKBOX 集團形象官網，設計、原型 prototype。此為作品集展示用的 prototype，並非 KKBOX 官方網站；頁面中 KKBOX 及投資方、合作夥伴的商標與 logo 均屬各自所有者。',
+      desc: 'KKBOX 集團形象官網，設計、原型 prototype',
+      note: '此為作品集展示用的 prototype，並非 KKBOX 官方網站；頁面中 KKBOX 及投資方、合作夥伴的商標與 logo 均屬各自所有者。',
       cover: 'img/handmade/kkbox-inc.webp',
       links: [{ label: 'Prototype', href: '@portfolio/kkbox-inc/index.html' }]
     },
@@ -100,12 +101,6 @@ window.WORKS = {
         { src: 'img/shots/ct-article.webp', title: '文章' },
         { src: 'img/shots/ct-mobile.webp', title: '行動裝置' }
       ]
-    },
-    {
-      title: '和多繽紛樂',
-      desc: '已更名 FunSlots 繽紛樂，設計、原型 prototype',
-      cover: 'img/handmade/bingo.webp',
-      links: [{ label: 'Website', href: 'http://slot.miario.com/' }]
     },
     {
       title: '4Gamers',
