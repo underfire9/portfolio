@@ -27,6 +27,8 @@ a{color:inherit}
   padding-block:calc(24px + env(safe-area-inset-top,0px)) calc(20px + env(safe-area-inset-bottom,0px));
   transition:color .45s ease}
 #face-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y}
+.hero.face-ready{cursor:pointer}
+.hero.face-ready .intro,.hero.face-ready .hero-foot{cursor:auto}
 .hero-inner{position:relative;flex:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
   align-items:center;gap:clamp(16px,4vw,64px);max-width:1440px;width:100%;margin-inline:auto;
   padding-inline:clamp(0px,3vw,48px)}

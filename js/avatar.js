@@ -1,5 +1,6 @@
-/* Hero 頭像：three.js 圓點轉頭。
-   九張照片的色塊網格依滑鼠位置混合，片段著色器把色塊轉成蜂巢排列的圓點。
+/* Hero 頭像（avatar-v2）：three.js 圓點轉頭。
+   九宮格九張頭像的色塊網格依滑鼠位置混合，片段著色器把色塊轉成蜂巢排列的圓點；
+   整個 hero 鋪一層同格線的小圓點當背景。點 hero 空白處顆粒大小依序 15 → 20 → 10 px。
    背景：游標在臉附近時是最淺膚色，越往外越接近最深髮色；文字色由 site.js 依 --bg-t 切換。 */
 (function () {
   const hero = document.querySelector('.hero');
@@ -76,10 +77,30 @@ void main(){
   float lv=4.-dot(step(0.,s),vec4(1.));
   float r=cell*.42*mix(.55,1.,smoothstep(0.,.03,ms)), d=distance(fc,c);
   float al=clamp(r-d+.5,0.,1.); if(al<.01)discard;
-  gl_FragColor=vec4(mix(DARK,LIGHT,lv/4.),al);
+  gl_FragColor=vec4(mix(DARK,LIGHT,lv/3.),al);
 }`
     }));
-    mesh.frustumCulled = false; scene.add(mesh);
+    mesh.frustumCulled = false; mesh.renderOrder = 1; scene.add(mesh);
+
+    // 整個 hero 的背景圓點，和頭像同一組蜂巢格線（點比較小，頭像靠點的大小浮出來）
+    const BU = { cell: U.cell, dotc: { value: new THREE.Color() }, gapc: { value: new THREE.Color() } };
+    const bgq = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), new THREE.ShaderMaterial({
+      uniforms: BU, depthTest: false,
+      vertexShader: `void main(){gl_Position=vec4(position.xy,0.,1.);}`,
+      fragmentShader: `precision highp float;uniform float cell;uniform vec3 dotc,gapc;
+void main(){vec2 fc=gl_FragCoord.xy,g=vec2(cell,cell*1.732);
+  vec2 a=(floor(fc/g)+.5)*g,b=(floor((fc-g*.5)/g)+.5)*g+g*.5;
+  float d=min(distance(fc,a),distance(fc,b)),r=cell*.30;
+  gl_FragColor=vec4(mix(gapc,dotc,clamp(r-d+.5,0.,1.)),1.);}`
+    }));
+    bgq.frustumCulled = false; bgq.renderOrder = 0; scene.add(bgq);
+
+    // 顆粒大小（CSS px）：點 hero 空白處依序 15 → 20 → 10 → 15
+    const SIZES = [15, 20, 10]; let si = 0;
+    hero.addEventListener('click', e => {
+      if (e.target.closest('a, button, .intro, .hero-foot')) return;
+      si = (si + 1) % SIZES.length; size();
+    });
 
     // 頭像畫在 .face 元素的位置；網格貼圖本身含留白，所以放大一些
     const PAD = 1.42;
@@ -91,7 +112,7 @@ void main(){
       cx = f.left + f.width / 2; cy = f.top + f.height / 2;
       const lx = cx - r.left - s / 2, ly = r.bottom - (cy + s / 2);
       U.box.value.set(lx * pr, ly * pr, s * pr, s * pr); U.res.value.set(r.width * pr, r.height * pr);
-      U.cell.value = Math.max(5 * pr, s * pr / 92); draw();
+      U.cell.value = SIZES[si] * pr; draw();
     }
 
     const bg = new THREE.Color(), cHair = new THREE.Color(...HAIR), cSkin = new THREE.Color(...SKIN);
@@ -103,17 +124,18 @@ void main(){
         raf = 0;
         // 雙重 smoothstep：少停留在中間灰階，文字較容易保持對比
         let t = Math.min(1, Math.hypot(m.x, m.y) / 0.85); t = t * t * (3 - 2 * t); t = t * t * (3 - 2 * t);
-        bg.copy(cSkin).lerp(cHair, t); gl.setClearColor(bg, 1);
-        if (Math.abs(t - tone) > 0.002) { tone = t; api.onTone && api.onTone(t, '#' + bg.getHexString()); }
+        bg.copy(cSkin).lerp(cHair, t);
+        BU.dotc.value.copy(bg); BU.gapc.value.copy(bg).multiplyScalar(t > 0.5 ? 0.78 : 0.9); gl.setClearColor(BU.gapc.value, 1);
+        if (Math.abs(t - tone) > 0.002) { tone = t; api.onTone && api.onTone(t, '#' + BU.gapc.value.getHexString()); }
         gl.render(scene, cam);
       });
     }
     api.redraw = () => { size(); };
 
-    // 游標 → Figma #av 格點位置（橫 -2..2、縱 -1..1），以高斯權重混合九張
+    // 游標 → 九宮格位置（橫 -1..1 左到右、縱 -1..1 上到下），以高斯權重混合九張
     const sig = 0.36;
     function weights() {
-      const gx = m.x * 2, gy = m.y; let tot = 0;
+      const gx = m.x, gy = m.y; let tot = 0;
       const W = M.grid.map(([x, y]) => { const v = Math.exp(-((gx - x) ** 2 + (gy - y) ** 2) / (2 * sig * sig)); tot += v; return v; });
       W.forEach((v, i) => { U.w.value[i] = v / tot; });
       const q = U.w.value; U.wA.value.set(q[0], q[1], q[2], q[3]); U.wB.value.set(q[4], q[5], q[6], q[7]); U.w8.value = q[8];
