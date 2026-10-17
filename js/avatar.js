@@ -1,6 +1,6 @@
-/* Hero 頭像（avatar-v2）：three.js 圓點轉頭。
+/* Hero 頭像（avatar-v2.1）：three.js 圓點轉頭。
    九宮格九張頭像的色塊網格依滑鼠位置混合，片段著色器把色塊轉成蜂巢排列的圓點；
-   整個 hero 鋪一層同格線的小圓點當背景。點 hero 空白處顆粒大小依序 15 → 20 → 10 px。
+   背景是純色。點 hero 空白處顆粒大小依序 12 → 16 → 20 px。
    背景：游標在臉附近時是最淺膚色，越往外越接近最深髮色；文字色由 site.js 依 --bg-t 切換。 */
 (function () {
   const hero = document.querySelector('.hero');
@@ -82,21 +82,9 @@ void main(){
     }));
     mesh.frustumCulled = false; mesh.renderOrder = 1; scene.add(mesh);
 
-    // 整個 hero 的背景圓點，和頭像同一組蜂巢格線（點比較小，頭像靠點的大小浮出來）
-    const BU = { cell: U.cell, dotc: { value: new THREE.Color() }, gapc: { value: new THREE.Color() } };
-    const bgq = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), new THREE.ShaderMaterial({
-      uniforms: BU, depthTest: false,
-      vertexShader: `void main(){gl_Position=vec4(position.xy,0.,1.);}`,
-      fragmentShader: `precision highp float;uniform float cell;uniform vec3 dotc,gapc;
-void main(){vec2 fc=gl_FragCoord.xy,g=vec2(cell,cell*1.732);
-  vec2 a=(floor(fc/g)+.5)*g,b=(floor((fc-g*.5)/g)+.5)*g+g*.5;
-  float d=min(distance(fc,a),distance(fc,b)),r=cell*.30;
-  gl_FragColor=vec4(mix(gapc,dotc,clamp(r-d+.5,0.,1.)),1.);}`
-    }));
-    bgq.frustumCulled = false; bgq.renderOrder = 0; scene.add(bgq);
 
-    // 顆粒大小（CSS px）：點 hero 空白處依序 15 → 20 → 10 → 15
-    const SIZES = [15, 20, 10]; let si = 0;
+    // 顆粒大小（CSS px）：點 hero 空白處依序 12 → 16 → 20 → 12
+    const SIZES = [12, 16, 20]; let si = 0;
     hero.addEventListener('click', e => {
       if (e.target.closest('a, button, .intro, .hero-foot')) return;
       si = (si + 1) % SIZES.length; size();
@@ -125,8 +113,8 @@ void main(){vec2 fc=gl_FragCoord.xy,g=vec2(cell,cell*1.732);
         // 雙重 smoothstep：少停留在中間灰階，文字較容易保持對比
         let t = Math.min(1, Math.hypot(m.x, m.y) / 0.85); t = t * t * (3 - 2 * t); t = t * t * (3 - 2 * t);
         bg.copy(cSkin).lerp(cHair, t);
-        BU.dotc.value.copy(bg); BU.gapc.value.copy(bg).multiplyScalar(t > 0.5 ? 0.78 : 0.9); gl.setClearColor(BU.gapc.value, 1);
-        if (Math.abs(t - tone) > 0.002) { tone = t; api.onTone && api.onTone(t, '#' + BU.gapc.value.getHexString()); }
+        gl.setClearColor(bg, 1);
+        if (Math.abs(t - tone) > 0.002) { tone = t; api.onTone && api.onTone(t, '#' + bg.getHexString()); }
         gl.render(scene, cam);
       });
     }
