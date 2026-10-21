@@ -6,30 +6,24 @@
 window.LEGACY_ROOT = window.LEGACY_ROOT || '';
 
 window.WORKS = {
-  // 「作品」：AI 模型生成的作品
+  // 「作品」：AI 模型生成的作品，新的放上面
   ai: [
     {
-      title: 'Fireworker',
-      tag: '軟體開發',
-      desc: '這是給設計師用的 Windows 桌面 prototype 工具，延續自 Fire.app。用 ERB 和 SCSS 寫頁面，存檔後瀏覽器預覽會自動更新，完成後輸出成靜態 HTML。',
-      features: [ // 條列重點，選填
-        '建立專案時，可以從空白、形象頁或後台列表範本開始',
-        '內建中、英、日假文，以及假圖與常用 helper，不必準備真實內容',
-        '語法或 SCSS 有錯時，直接顯示在預覽頁上',
-        '預覽網址固定',
-        '一鍵輸出靜態網站並壓縮成 zip',
-        '提供命令列與 AGENTS.md，AI agent 也能直接建立、檢查、輸出專案'
-      ],
+      title: 'Cloud',
+      subtitle: 'on the lake', // 標題下方的小字
+      tag: 'Three.js 效果',
+      date: '2026.10.21', // 日期，顯示在標題下方
+      desc: '亂晃逛到 [Deep White Gallery](https://www.deepwhite-gallery.com/) 數位藝術畫廊網站，hero 超現實的畫面看了好久，原始技術是影片循環播放，想想 Three.js 應該可以做到，顧及硬體效能只做到七分但意境有了。', // [文字](網址) 會變成另開新視窗的連結
       cover: '',
-      motion: 'embers', // 動態封面，見 js/covers.js
-      logo: 'img/ai/fireworker-logo.svg',
-      tagline: '', // 封面上 logo 旁的一句話
-      shot: '', // 封面右側的產品截圖，留空時 logo 置中
-      links: [] // 例如 { label: 'Website', href: 'https://…' }
+      motion: 'cloud', // 封面是降低效能負擔的版本，見 js/cloud.js
+      fullscreen: true, // 封面右下角的全螢幕按鈕，點了播放原始版本
+      links: []
     },
     {
       title: 'Visual Dock',
       tag: '軟體開發',
+      date: '2026.09.15', // 日期，顯示在標題下方
+      status: '持續開發中', // 日期旁的註記，選填
       desc: 'Visual Dock 是完全個人化的 Windows 桌面應用程式，用 Electron 包裝網頁介面而成，把動態視覺畫面、應用程式啟動列和常用系統控制整合在同一個全螢幕畫面裡，完全覆蓋原生系統工具列，滿足了宅宅愛亂改桌面的慾望，取代原生系統醜怪的視窗，空檔之餘還可以看著動態視窗放鬆。',
       features: [
         '視覺舞台：可以在 CSS／JS、Three.js、影片和音樂視覺化這幾個分類之間切換畫面。目前內容可更換背景的雨窗、3D 場景、串流播放的 Aerial 空拍影片，以及 Butterchurn 和 projectM 音樂視覺化。',
@@ -52,14 +46,24 @@ window.WORKS = {
       links: []
     },
     {
-      title: 'Cloud',
-      subtitle: 'on the lake', // 標題下方的小字
-      tag: 'Three.js 效果',
-      desc: '亂晃逛到 [Deep White Gallery](https://www.deepwhite-gallery.com/) 數位藝術畫廊網站，hero 超現實的畫面看了好久，原始技術是影片循環播放，想想 Three.js 應該可以做到，顧及硬體效能只做到七分但意境有了。', // [文字](網址) 會變成另開新視窗的連結
+      title: 'Fireworker',
+      tag: '軟體開發',
+      date: '2026.08.20', // 日期，顯示在標題下方
+      desc: '這是給設計師用的 Windows 桌面 prototype 工具，延續自 Fire.app。用 ERB 和 SCSS 寫頁面，存檔後瀏覽器預覽會自動更新，完成後輸出成靜態 HTML。',
+      features: [ // 條列重點，選填
+        '建立專案時，可以從空白、形象頁或後台列表範本開始',
+        '內建中、英、日假文，以及假圖與常用 helper，不必準備真實內容',
+        '語法或 SCSS 有錯時，直接顯示在預覽頁上',
+        '預覽網址固定',
+        '一鍵輸出靜態網站並壓縮成 zip',
+        '提供命令列與 AGENTS.md，AI agent 也能直接建立、檢查、輸出專案'
+      ],
       cover: '',
-      motion: 'cloud', // 封面是降低效能負擔的版本，見 js/cloud.js
-      fullscreen: true, // 封面右下角的全螢幕按鈕，點了播放原始版本
-      links: []
+      motion: 'embers', // 動態封面，見 js/covers.js
+      logo: 'img/ai/fireworker-logo.svg',
+      tagline: '', // 封面上 logo 旁的一句話
+      shot: '', // 封面右側的產品截圖，留空時 logo 置中
+      links: [] // 例如 { label: 'Website', href: 'https://…' }
     }
   ],
 
