@@ -60,6 +60,8 @@
   /* ---------- 作品列表 ---------- */
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const isZh = s => /[㐀-鿿]/.test(s);
+  // 說明裡的 [文字](https://…) 轉成另開新視窗的連結
+  const rich = s => esc(s).replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
   const GEN = [
     ['var(--tone-3)', 'var(--tone-1)', '160deg'],
     ['var(--tone-4)', 'var(--tone-2)', '200deg'],
@@ -83,13 +85,13 @@
     const gal = w.gallery && w.gallery.length && !thumbs
       ? `<button type="button" class="act" data-gallery="${kind}:${i}">Mockup <span aria-hidden="true">· ${w.gallery.length} 張</span></button>` : '';
     return `<article class="card">
-      <div class="cover">${cover}</div>
+      <div class="cover">${cover}${w.fullscreen ? `<button type="button" class="cover-full" aria-label="全螢幕觀看 ${esc(w.title)}" title="全螢幕"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/></svg></button>` : ''}</div>
       <div class="card-head">
         ${w.tag ? `<span class="tag">${esc(w.tag)}</span>` : ''}
-        <h3${isZh(w.title) ? ' lang="zh"' : ''}>${esc(w.title)}</h3>
+        <h3${isZh(w.title) ? ' lang="zh"' : ''}>${esc(w.title)}${w.subtitle ? `<small>${esc(w.subtitle)}</small>` : ''}</h3>
       </div>
       <div class="card-body">
-        ${w.desc ? `<p>${esc(w.desc)}</p>` : ''}
+        ${w.desc ? `<p>${rich(w.desc)}</p>` : ''}
         ${w.features && w.features.length ? `<ul class="feats">${w.features.map(f => { const m = f.match(/^([^：]{1,8})：(.*)$/s);
           return `<li>${m ? `<b>${esc(m[1])}</b>${esc(m[2])}` : esc(f)}</li>`; }).join('')}</ul>` : ''}
         ${w.note ? `<p class="note">${esc(w.note)}</p>` : ''}
@@ -197,7 +199,7 @@
   $('.home').addEventListener('click', e => { e.preventDefault(); history.pushState(null, '', location.pathname + location.search); route(); });
   addEventListener('popstate', route);
   addEventListener('resize', () => current && moveInk(current, true));
-  addEventListener('keydown', e => { if (e.key === 'Escape' && current && !lb.open) $('.home').click(); });
+  addEventListener('keydown', e => { if (e.key === 'Escape' && current && !document.querySelector('dialog[open]')) $('.home').click(); });
 
   /* ---------- 燈箱 ---------- */
   const lb = $('#lightbox'), lbImg = $('#lb-img'), lbBody = $('#lb-body');
