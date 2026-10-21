@@ -89,6 +89,7 @@
       <div class="card-head">
         ${w.tag ? `<span class="tag">${esc(w.tag)}</span>` : ''}
         <h3${isZh(w.title) ? ' lang="zh"' : ''}>${esc(w.title)}${w.subtitle ? `<small>${esc(w.subtitle)}</small>` : ''}</h3>
+        ${w.date ? `<p class="meta"><time datetime="${esc(w.date.replace(/\./g, '-'))}">${esc(w.date)}</time>${w.status ? `<span class="status">${esc(w.status)}</span>` : ''}</p>` : ''}
       </div>
       <div class="card-body">
         ${w.desc ? `<p>${rich(w.desc)}</p>` : ''}
