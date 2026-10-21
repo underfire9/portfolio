@@ -50,6 +50,16 @@ window.WORKS = {
         { src: 'img/shots/vd-4.webp', thumb: 'img/shots/vd-4-sm.webp', title: 'projectM 音樂視覺化' }
       ],
       links: []
+    },
+    {
+      title: 'Cloud',
+      subtitle: 'on the lake', // 標題下方的小字
+      tag: 'Three.js 效果',
+      desc: '亂晃逛到 [Deep White Gallery](https://www.deepwhite-gallery.com/) 數位藝術畫廊網站，hero 超現實的畫面看了好久，原始技術是影片循環播放，想想 Three.js 應該可以做到，顧及硬體效能只做到七分但意境有了。', // [文字](網址) 會變成另開新視窗的連結
+      cover: '',
+      motion: 'cloud', // 封面是降低效能負擔的版本，見 js/cloud.js
+      fullscreen: true, // 封面右下角的全螢幕按鈕，點了播放原始版本
+      links: []
     }
   ],
 
