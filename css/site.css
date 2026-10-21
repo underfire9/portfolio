@@ -182,9 +182,9 @@ a{color:inherit}
 .cloud-close:hover,.cloud-close:focus-visible{opacity:1}
 .card-body p a{color:inherit;text-underline-offset:3px}
 /* 作品日期與狀態註記 */
-.card .meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin:0;font:500 13px/1 var(--mono);letter-spacing:.06em;color:var(--muted)}
+.card .meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:0;font:500 11px/1 var(--mono);letter-spacing:.06em;color:var(--muted)}
 .card .meta .status{display:inline-flex;align-items:center;gap:6px;font-family:var(--sans);letter-spacing:.02em;color:var(--ember)}
-.card .meta .status::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.card .meta .status::before{content:"";width:5px;height:5px;border-radius:50%;background:currentColor}
 
 /* 條列小標、技術、截圖格 */
 .feats b{display:block;color:var(--ink);font-weight:700}
