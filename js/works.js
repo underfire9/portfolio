@@ -9,6 +9,14 @@ window.WORKS = {
   // 「作品」：AI 模型生成的作品，新的放上面
   ai: [
     {
+      title: 'Tron City',
+      tag: 'Three.js 效果',
+      date: '2026.10.23', // 日期，顯示在標題下方
+      desc: 'Tron: Legacy 是非常喜歡的電影之一，Neo-Cyberpunk 風格強烈，在 Three.js 技術下很適合拿來練嘴 :)',
+      cover: 'img/ai/tron-city-cover.webp',
+      links: [{ label: '觀看作品', href: 'tron-city/' }] // 另開新視窗，完整版在 tron-city/index.html
+    },
+    {
       title: 'Cloud',
       subtitle: 'on the lake', // 標題下方的小字
       tag: 'Three.js 效果',
